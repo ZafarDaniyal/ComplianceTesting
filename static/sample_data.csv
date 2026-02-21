@@ -1,0 +1,12 @@
+date,salesperson,customer name,contact,address,policy,purchase company,premium amount,notes
+2026-02-02,Salesman 1,Maria Johnson,614-555-1101,"121 Oak St, Columbus, OH",Auto,Travelers,1380,Closed - bundled auto
+2026-02-06,Salesman 1,Derrick Cole,614-555-1202,"9 Lake View Dr, Dublin, OH",Condo,Travelers,490,Referral lead
+2026-02-11,Salesman 1,Naomi Evans,614-555-1303,"77 Aspen Ct, Hilliard, OH",Auto,National General,169,Paid in full
+2026-02-03,Salesman 2,Kevin Reed,614-555-2101,"882 Pearl Ave, Columbus, OH",Home,Steadily,1496,Landlord home policy
+2026-02-08,Salesman 2,Alicia Turner,614-555-2202,"41 Park Blvd, Westerville, OH",Auto,National General,845,Upsell from quote
+2026-02-14,Salesman 2,Robert Hale,614-555-2303,"360 W Main, Grove City, OH",Condo,Travelers,625,Closed after callback
+2026-02-04,Salesman 3,Jasmine Brooks,614-555-3101,"220 Cedar Ln, Columbus, OH",Auto,National General,1190,Sold same day
+2026-02-09,Salesman 3,Thomas Nguyen,614-555-3202,"918 Willow Dr, Reynoldsburg, OH",Home,Travelers,1875,Multi-policy household
+2026-02-01,Salesman 4,Brianna Lewis,614-555-4101,"12 Mill Rd, Gahanna, OH",Auto,Progressive,930,Internet lead
+2026-02-07,Salesman 4,Victor Patel,614-555-4202,"56 Center St, New Albany, OH",Home,Steadily,2100,High premium close
+2026-02-12,Salesman 4,Elena Price,614-555-4303,"744 River Rd, Columbus, OH",Auto,Travelers,760,Won over competitor

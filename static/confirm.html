@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Policy Change Confirmation</title>
+  <link rel="stylesheet" href="/styles.css?v=3" />
+</head>
+<body>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+
+  <main class="shell confirm-shell">
+    <section class="panel confirm-panel">
+      <h1>Policy Change Confirmation</h1>
+      <p class="muted" id="confirmIntro">Review the requested changes below.</p>
+
+      <div class="confirm-meta">
+        <div><strong>Customer:</strong> <span id="customerName">-</span></div>
+        <div><strong>Policy:</strong> <span id="policyLabel">-</span></div>
+        <div><strong>Status:</strong> <span id="statusBadge" class="status-pill">-</span></div>
+        <div><strong>Expires:</strong> <span id="expiresAt">-</span></div>
+      </div>
+
+      <h3>Requested Changes</h3>
+      <ul id="actionList" class="confirm-list"></ul>
+
+      <label>
+        Full Summary
+        <textarea id="summaryText" rows="3" readonly></textarea>
+      </label>
+
+      <section id="decisionSection" class="stack gap-md">
+        <label>
+          Type Your Full Name (Signature)
+          <input id="signatureName" placeholder="First and last name" />
+        </label>
+        <label>
+          Notes (optional)
+          <textarea id="decisionNote" rows="2" placeholder="Anything you want to mention"></textarea>
+        </label>
+        <div class="row gap-sm">
+          <button id="approveBtn" class="btn btn-gold" type="button">Confirm Changes</button>
+          <button id="declineBtn" class="btn btn-outline" type="button">Decline Changes</button>
+        </div>
+      </section>
+
+      <p id="confirmMessage" class="ok"></p>
+    </section>
+  </main>
+
+  <script src="/confirm.js?v=1"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: insurance-crm-demo
+    runtime: python
+    plan: free
+    buildCommand: echo "No build step required"
+    startCommand: python3 app.py
+    autoDeploy: true
+    envVars:
+      - key: CRM_APP_SALT
+        generateValue: true

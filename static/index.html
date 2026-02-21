@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Insurance CRM Tracker</title>
+  <link rel="stylesheet" href="/styles.css?v=3" />
+</head>
+<body>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+
+  <main class="shell">
+    <section id="loginView" class="panel login-panel">
+      <h1>Insurance CRM Tracker</h1>
+      <p class="muted">Shared sales tracker for 4 salespeople + owner analytics</p>
+
+      <form id="loginForm" class="stack gap-md">
+        <label>
+          Username
+          <input id="username" required placeholder="owner, sales1, sales2, sales3, sales4" />
+        </label>
+        <label>
+          Passcode
+          <input id="passcode" type="password" required placeholder="Enter passcode" />
+        </label>
+        <button type="submit" class="btn btn-gold">Sign in</button>
+      </form>
+
+      <div class="hint">
+        <p>Default login:</p>
+        <p><code>owner / owner123!</code></p>
+        <p><code>sales1..sales4 / agent123!</code></p>
+      </div>
+      <p id="loginError" class="error"></p>
+    </section>
+
+    <section id="appView" class="hidden">
+      <header class="topbar panel">
+        <div>
+          <h2 id="welcomeText">CRM</h2>
+          <p class="muted" id="modeText"></p>
+        </div>
+        <div class="row gap-sm">
+          <label>
+            Month
+            <input type="month" id="monthFilter" />
+          </label>
+          <button id="refreshBtn" class="btn">Refresh</button>
+          <button id="logoutBtn" class="btn btn-outline">Logout</button>
+        </div>
+      </header>
+
+      <nav class="tabs panel">
+        <button class="tab active" data-tab="entry">Sales Entry</button>
+        <button class="tab" data-tab="confirmations">Change Confirmations</button>
+        <button class="tab" data-tab="log">Sales Log</button>
+        <button class="tab" data-tab="leaderboard">Leaderboard</button>
+        <button class="tab hidden" data-tab="owner" id="ownerTabBtn">Owner Sheet</button>
+      </nav>
+
+      <section id="tab-entry" class="panel tab-content">
+        <h3>Add Policy Sale</h3>
+        <form id="saleForm" class="grid-form">
+          <label>
+            Customer Name
+            <input id="customerName" required />
+          </label>
+          <label>
+            Phone Number
+            <input id="phone" />
+          </label>
+          <label>
+            Address
+            <input id="address" />
+          </label>
+          <label>
+            Date Sold
+            <input id="dateSold" type="date" required />
+          </label>
+          <label>
+            Policy Type
+            <input id="policyType" placeholder="Auto, Home, Condo..." />
+          </label>
+          <label>
+            Carrier / Company
+            <input id="carrier" placeholder="Travelers, National General..." />
+          </label>
+          <label>
+            Exact Premium Amount ($)
+            <input id="premiumAmount" type="number" step="0.01" min="0.01" required />
+          </label>
+          <label>
+            Agent Commission %
+            <input id="agentRate" type="number" step="0.01" min="0" />
+          </label>
+          <label>
+            Agency Commission %
+            <input id="agencyRate" type="number" step="0.01" min="0" />
+          </label>
+          <label id="agentSelectWrap" class="hidden">
+            Salesperson
+            <select id="salespersonSelect"></select>
+          </label>
+          <label class="full">
+            Notes
+            <textarea id="notes" rows="2"></textarea>
+          </label>
+          <button type="submit" class="btn btn-gold full">Save Sale</button>
+        </form>
+        <p id="saleMessage" class="ok"></p>
+      </section>
+
+      <section id="tab-confirmations" class="panel tab-content hidden">
+        <h3>Policy Change Confirmations</h3>
+        <p class="muted">
+          Send a one-tap confirmation link by text or email and keep a signed audit trail.
+        </p>
+
+        <form id="changeRequestForm" class="grid-form">
+          <label>
+            Customer Name
+            <input id="confirmCustomerName" required />
+          </label>
+          <label>
+            Mobile Number
+            <input id="confirmCustomerPhone" placeholder="+1 555 123 4567" />
+          </label>
+          <label>
+            Email
+            <input id="confirmCustomerEmail" type="email" placeholder="customer@email.com" />
+          </label>
+          <label>
+            Policy / Reference
+            <input id="confirmPolicyLabel" placeholder="Policy # or vehicle/account ref" />
+          </label>
+          <label>
+            Send Channel
+            <select id="confirmChannel">
+              <option value="sms">SMS</option>
+              <option value="email">Email</option>
+              <option value="manual">Manual (copy message)</option>
+            </select>
+          </label>
+          <label>
+            Link Expires (minutes)
+            <input id="confirmExpiryMinutes" type="number" min="5" max="10080" value="60" />
+          </label>
+
+          <div class="full">
+            <h4>Requested Changes</h4>
+            <div id="actionRows" class="stack gap-sm"></div>
+            <button type="button" id="addActionBtn" class="btn btn-outline">Add Change Row</button>
+          </div>
+
+          <label class="full">
+            Extra Notes (optional)
+            <textarea id="confirmSummaryText" rows="2" placeholder="Any additional details for customer review"></textarea>
+          </label>
+
+          <button type="submit" class="btn btn-gold full">Create Confirmation Request</button>
+        </form>
+
+        <p id="changeRequestMessage" class="ok"></p>
+
+        <article id="latestConfirmationBox" class="card hidden">
+          <div class="label">Ready To Send</div>
+          <p class="muted">Share this instantly with the customer.</p>
+          <label>
+            Confirmation Link
+            <input id="latestConfirmUrl" readonly />
+          </label>
+          <label>
+            Message
+            <textarea id="latestConfirmMessage" rows="3" readonly></textarea>
+          </label>
+          <div class="row gap-sm">
+            <button id="copyConfirmLinkBtn" type="button" class="btn">Copy Link</button>
+            <button id="copyConfirmMessageBtn" type="button" class="btn">Copy Message</button>
+          </div>
+          <p id="deliveryMessage" class="muted"></p>
+        </article>
+
+        <div class="row gap-sm">
+          <label>
+            Status Filter
+            <select id="confirmStatusFilter">
+              <option value="all">All</option>
+              <option value="pending">Pending</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="declined">Declined</option>
+              <option value="expired">Expired</option>
+            </select>
+          </label>
+          <button id="refreshConfirmationsBtn" type="button" class="btn">Refresh Requests</button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Created</th>
+                <th>Customer</th>
+                <th>Summary</th>
+                <th>Status</th>
+                <th>Channel</th>
+                <th>Expires</th>
+                <th>Decision</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="confirmationsTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="tab-log" class="panel tab-content hidden">
+        <h3>Sales Log</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Salesperson</th>
+                <th>Customer</th>
+                <th>Phone</th>
+                <th>Address</th>
+                <th>Policy</th>
+                <th>Carrier</th>
+                <th>Premium</th>
+                <th>Agent Comm.</th>
+                <th>Agency Comm.</th>
+              </tr>
+            </thead>
+            <tbody id="salesTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="tab-leaderboard" class="panel tab-content hidden">
+        <h3>Monthly Leaderboard</h3>
+        <p class="muted" id="competitionModeText"></p>
+        <div id="leaderboardCards" class="cards"></div>
+      </section>
+
+      <section id="tab-owner" class="panel tab-content hidden">
+        <h3>Hidden Owner Sheet</h3>
+        <div id="metricCards" class="cards"></div>
+
+        <h4>By Salesperson</h4>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Salesperson</th>
+                <th>Deals</th>
+                <th>Premium</th>
+                <th>Agent Comm.</th>
+                <th>Agency Comm.</th>
+              </tr>
+            </thead>
+            <tbody id="ownerTableBody"></tbody>
+          </table>
+        </div>
+
+        <h4>Upload Existing Data (CSV)</h4>
+        <div class="row gap-sm upload-row">
+          <input type="file" id="csvFile" accept=".csv" />
+          <button id="uploadBtn" class="btn">Upload CSV</button>
+          <a href="/template.csv" class="btn btn-outline" download>Template CSV</a>
+          <a href="/sample_data.csv" class="btn btn-outline" download>Sample Data CSV</a>
+          <button id="exportBtn" class="btn btn-outline">Export Month CSV</button>
+        </div>
+        <p id="uploadMessage" class="ok"></p>
+
+        <h4>Owner Settings</h4>
+        <form id="settingsForm" class="grid-form compact">
+          <label class="toggle">
+            <input id="competitionMode" type="checkbox" />
+            Competition mode: salespeople can see everyone
+          </label>
+          <label>
+            Default Agent Commission %
+            <input id="defaultAgentRate" type="number" step="0.01" min="0" />
+          </label>
+          <label>
+            Default Agency Commission %
+            <input id="defaultAgencyRate" type="number" step="0.01" min="0" />
+          </label>
+          <div class="full">
+            <h4>Salesperson Names</h4>
+            <div id="agentNameFields" class="grid-form compact"></div>
+          </div>
+          <button type="submit" class="btn btn-gold">Save Settings</button>
+        </form>
+        <p id="settingsMessage" class="ok"></p>
+      </section>
+    </section>
+  </main>
+
+  <script src="/app.js?v=3"></script>
+</body>
+</html>
