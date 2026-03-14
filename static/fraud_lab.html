@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fraud Signal Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/fraud_lab.css?v=1" />
+</head>
+<body>
+  <div class="page-noise"></div>
+  <div class="halo halo-a"></div>
+  <div class="halo halo-b"></div>
+
+  <main class="lab-shell">
+    <header class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">XGBoost Fraud Signal Studio</p>
+        <h1>Fraud Detection Model</h1>
+        <p class="hero-text">
+          This showcase turns realistic card transactions into a live risk decision. It is designed to feel approachable first,
+          while still proving there is a real machine-learning system and a real explanation layer underneath.
+        </p>
+        <div class="metric-strip" id="metricStrip"></div>
+      </div>
+
+      <aside class="hero-note card">
+        <div class="card-kicker">Portfolio framing</div>
+        <p>
+          Built as a public-facing ML engineer demo: engineered features, production-style scoring, threshold tuning, and explanation math in one screen.
+        </p>
+      </aside>
+    </header>
+
+    <section class="workspace">
+      <section class="card builder-card">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Interactive demo</p>
+            <h2>Try a realistic card swipe</h2>
+          </div>
+          <button id="shuffleBtn" class="secondary-btn" type="button">Load random case</button>
+        </div>
+
+        <div class="sample-grid" id="sampleGrid"></div>
+
+        <form id="scoreForm" class="form-grid">
+          <label>
+            Spend amount
+            <input id="amount" name="amount" type="number" min="1" step="0.01" required />
+          </label>
+          <label>
+            Purchase type
+            <select id="category" name="category"></select>
+          </label>
+          <label>
+            Customer profile
+            <select id="gender" name="gender"></select>
+          </label>
+          <label>
+            Customer age
+            <input id="age" name="age" type="number" min="18" max="95" required />
+          </label>
+          <label>
+            City size
+            <input id="cityPop" name="city_pop" type="number" min="500" step="1" required />
+          </label>
+          <label>
+            When it happened
+            <input id="transactionAt" name="transaction_at" type="datetime-local" required />
+          </label>
+          <label>
+            ZIP code
+            <input id="zip" name="zip" type="number" min="10000" max="99999" required />
+          </label>
+          <label>
+            Miles from home
+            <input id="distanceMiles" name="distance_miles" type="number" min="0" step="0.1" required />
+          </label>
+          <div class="form-actions">
+            <button class="primary-btn" type="submit">See how the system reacts</button>
+            <p id="formHint" class="form-hint">Use a preset to jump into a believable scenario, then tweak the details.</p>
+          </div>
+        </form>
+      </section>
+
+      <aside class="card result-card">
+        <div class="section-heading compact">
+          <div>
+            <p class="section-kicker">Live decision</p>
+            <h2 id="verdictLabel">Ready for a scenario</h2>
+          </div>
+          <span id="riskBand" class="risk-band">Ready</span>
+        </div>
+
+        <div class="dial-wrap">
+          <div class="dial" id="dial">
+            <div class="dial-core">
+              <span class="dial-value" id="probabilityValue">--</span>
+              <span class="dial-sub">fraud probability</span>
+            </div>
+          </div>
+          <div class="threshold-block">
+            <div class="threshold-row">
+              <span>Review line</span>
+              <strong id="thresholdValue">90.0%</strong>
+            </div>
+            <div class="threshold-row">
+              <span>Summary</span>
+              <strong id="decisionSummary">Run a transaction to see the story.</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="signal-grid" id="signalGrid"></div>
+      </aside>
+    </section>
+
+    <section class="analysis-grid">
+      <article class="card">
+        <div class="section-heading compact">
+          <div>
+            <p class="section-kicker">Why it reacted</p>
+            <h2>Main signals behind the decision</h2>
+          </div>
+        </div>
+        <div class="reason-columns">
+          <section>
+            <h3>Pushed risk up</h3>
+            <div id="positiveReasons" class="reason-list"></div>
+          </section>
+          <section>
+            <h3>Pushed risk down</h3>
+            <div id="negativeReasons" class="reason-list"></div>
+          </section>
+        </div>
+        <details class="tech-panel">
+          <summary>Open the technical proof</summary>
+          <p class="math-formula" id="mathFormula">z = bias + feature contributions</p>
+          <div class="math-stats" id="mathStats"></div>
+        </details>
+      </article>
+
+      <article class="card">
+        <div class="section-heading compact">
+          <div>
+            <p class="section-kicker">Behind the curtain</p>
+            <h2>All model signals</h2>
+          </div>
+        </div>
+        <div id="contributionRows" class="contribution-rows"></div>
+      </article>
+    </section>
+
+    <section class="card footer-card">
+      <div class="section-heading compact">
+        <div>
+          <p class="section-kicker">Why this is credible</p>
+          <h2>Performance snapshot + strongest signals</h2>
+        </div>
+      </div>
+      <div class="footer-grid">
+        <div class="performance-grid" id="performanceGrid"></div>
+        <div class="importance-list" id="importanceList"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/fraud_lab.js?v=1"></script>
+</body>
+</html>

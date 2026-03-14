@@ -3,7 +3,7 @@ services:
     name: insurance-crm-demo
     runtime: python
     plan: free
-    buildCommand: echo "No build step required"
+    buildCommand: pip install -r requirements.txt
     startCommand: python3 app.py
     autoDeploy: true
     envVars:

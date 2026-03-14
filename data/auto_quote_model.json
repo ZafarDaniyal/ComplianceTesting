@@ -1,0 +1,245 @@
+{
+  "model_name": "auto_quote_multiplicative_v1",
+  "created_at_utc": "2026-03-05T04:39:43Z",
+  "currency": "USD",
+  "base_annual_pure_premium": 163.1641,
+  "expense_load_multiplier": 1.28,
+  "gender_factor": {
+    "female": 1.0,
+    "male": 1.03,
+    "non_binary": 1.0,
+    "prefer_not_to_say": 1.0
+  },
+  "formula": "quoted_annual_premium = base_annual_pure_premium * product(feature_relativities) * gender_factor * expense_load_multiplier",
+  "features": {
+    "driver_age_band": {
+      "65+": 0.922982,
+      "50-64": 0.926011,
+      "35-49": 0.975505,
+      "25-34": 1.088052,
+      "16-20": 1.701523,
+      "21-24": 1.701523
+    },
+    "vehicle_age_band": {
+      "0-1": 0.866944,
+      "2-4": 0.885988,
+      "5-9": 0.962778,
+      "10+": 1.149983
+    },
+    "vehicle_power_band": {
+      "<=5": 0.877022,
+      "10+": 0.976233,
+      "6-7": 0.992633,
+      "8-9": 1.464407
+    },
+    "bonus_malus_band": {
+      "<=60": 0.815426,
+      "61-80": 1.529592,
+      "101-120": 1.689097,
+      "121+": 1.689097,
+      "81-100": 1.689097
+    },
+    "density_band": {
+      "<=50": 0.748541,
+      "201-500": 0.971694,
+      "51-200": 1.03407,
+      "501-2000": 1.085932,
+      "2001+": 1.113183
+    },
+    "area": {
+      "A": 0.75646,
+      "C": 0.877584,
+      "F": 0.945602,
+      "D": 1.089559,
+      "E": 1.143693,
+      "B": 1.284961
+    },
+    "fuel_type": {
+      "Diesel": 0.958233,
+      "Regular": 1.037993
+    }
+  },
+  "defaults": {
+    "driver_age_band": "35-49",
+    "vehicle_age_band": "2-4",
+    "vehicle_power_band": "6-7",
+    "bonus_malus_band": "81-100",
+    "density_band": "201-500",
+    "area": "C",
+    "fuel_type": "Regular"
+  },
+  "training_summary": {
+    "all_rows": 678013,
+    "train_rows": 542411,
+    "test_rows": 135602,
+    "all_total_exposure": 358534.23,
+    "all_total_claim_amount": 59909216.5,
+    "train_metrics": {
+      "mae_claim_amount": 170.933,
+      "rmse_claim_amount": 6423.0601,
+      "r2_claim_amount": 5.2e-05,
+      "rmse_annualized_loss": 28713.756
+    },
+    "test_metrics": {
+      "mae_claim_amount": 160.8282,
+      "rmse_claim_amount": 2115.4261,
+      "r2_claim_amount": -0.000463,
+      "rmse_annualized_loss": 57764.0877
+    }
+  },
+  "band_definitions": {
+    "driver_age_band": [
+      [
+        16,
+        20,
+        "16-20"
+      ],
+      [
+        21,
+        24,
+        "21-24"
+      ],
+      [
+        25,
+        34,
+        "25-34"
+      ],
+      [
+        35,
+        49,
+        "35-49"
+      ],
+      [
+        50,
+        64,
+        "50-64"
+      ],
+      [
+        65,
+        120,
+        "65+"
+      ]
+    ],
+    "vehicle_age_band": [
+      [
+        0,
+        1,
+        "0-1"
+      ],
+      [
+        2,
+        4,
+        "2-4"
+      ],
+      [
+        5,
+        9,
+        "5-9"
+      ],
+      [
+        10,
+        100,
+        "10+"
+      ]
+    ],
+    "vehicle_power_band": [
+      [
+        0,
+        5,
+        "<=5"
+      ],
+      [
+        6,
+        7,
+        "6-7"
+      ],
+      [
+        8,
+        9,
+        "8-9"
+      ],
+      [
+        10,
+        100,
+        "10+"
+      ]
+    ],
+    "bonus_malus_band": [
+      [
+        0,
+        60,
+        "<=60"
+      ],
+      [
+        61,
+        80,
+        "61-80"
+      ],
+      [
+        81,
+        100,
+        "81-100"
+      ],
+      [
+        101,
+        120,
+        "101-120"
+      ],
+      [
+        121,
+        400,
+        "121+"
+      ]
+    ],
+    "density_band": [
+      [
+        0,
+        50,
+        "<=50"
+      ],
+      [
+        51,
+        200,
+        "51-200"
+      ],
+      [
+        201,
+        500,
+        "201-500"
+      ],
+      [
+        501,
+        2000,
+        "501-2000"
+      ],
+      [
+        2001,
+        10000000,
+        "2001+"
+      ]
+    ]
+  },
+  "data_sources": [
+    {
+      "name": "OpenML freMTPL2freq",
+      "url": "https://www.openml.org/d/41214",
+      "download_url": "https://openml.org/data/get_csv/20649148/freMTPL2freq.arff",
+      "rows": 678013
+    },
+    {
+      "name": "OpenML freMTPL2sev",
+      "url": "https://www.openml.org/d/41215",
+      "download_url": "https://openml.org/data/get_csv/20649149/freMTPL2sev.arff",
+      "rows": 26639
+    },
+    {
+      "name": "CASdatasets (origin package reference)",
+      "url": "https://cran.r-project.org/web/packages/CASdatasets/index.html"
+    }
+  ],
+  "notes": [
+    "This is an educational quote estimator trained on public actuarial data.",
+    "Rates are scaled to USD output through expense loading and should not be treated as a filed premium.",
+    "Gender factor is configurable and should follow local underwriting/regulatory rules."
+  ]
+}
